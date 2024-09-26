@@ -1,0 +1,20 @@
+[project]
+name = "LLM-exploratory"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "josemarcosrf", email = "jose@melior.ai"},
+]
+dependencies = [
+    "vllm>=0.6.1.post2",
+    "click>=8.1.7",
+    "openai>=1.47.0",
+    "huggingface-hub[cli]>=0.25.1",
+]
+requires-python = "==3.10.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
