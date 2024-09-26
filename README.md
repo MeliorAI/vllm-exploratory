@@ -3,13 +3,32 @@
 
 # HowTo
 
-## Serve
-
-Run a vLLM server:
+## Install
 
 ```shell
-# Example vllm server command:
-# To see all options check 'vllm serve --help'
+pdm install
+```
+
+
+## Run
+
+### Batch
+
+Generate several generations reading from an input file (one prompt per line)
+
+```shell
+python -m llm.xplore batch run -m <modelID> -i <input-file>
+```
+
+### Serve
+
+Starts a vLLM server exposing an OpenAI-like API
+
+```shell
+python -m llm.xplore serve
+
+# Somewhat equivalent to:
+# (To see all options check 'vllm serve --help'):
 vllm serve <modelID> \
     --chat-template templates/template_chatml.jinja \
     --device auto \
@@ -19,4 +38,9 @@ vllm serve <modelID> \
     --distributed-executor-backend ray
 ```
 
-## TBD
+### Query the API
+
+Call the openAI-like API started by the serve command
+
+ - List avaialable models: `python -m llm.xplore api lsm
+ - Generate from a prompt: `python -m llm.xplore api gen 'How are you?'

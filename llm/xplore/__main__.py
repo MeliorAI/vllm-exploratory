@@ -20,9 +20,9 @@ def api():
     """CLI to interact with your LLM via an openAI-like API"""
 
 
-@click.group("server")
-def server():
-    """CLI to run your LLM via vLLM's server"""
+@click.group("serve")
+def serve():
+    """CLI to run your LLM via vLLM's OpenAI API-like server"""
 
 
 @click.group("batch")
@@ -30,7 +30,7 @@ def batch():
     """CLI to interact with your LLM off-line in batch-mode"""
 
 
-@server.command("run")
+@serve.command("run")
 @click.option("-m", "model", default=DEFAULT_MODEL)
 @click.option("-t", "--template", default="templates/template_chatml.jinja")
 @click.option("-l", "--max-model-len", default=300)
@@ -46,7 +46,7 @@ def server_run(model:str, template:str, max_model_len: int, cpu_offload_gb:int, 
             f"--chat-template={template}",
             f"--max-model-len={max_model_len}",
             f"--cpu-offload-gb={cpu_offload_gb}",
-            "--enforce-eager",
+            f"{'--enforce-eager' if enforce_eager else ''}",
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -61,6 +61,7 @@ def server_run(model:str, template:str, max_model_len: int, cpu_offload_gb:int, 
     # Get the exit status
     exit_code = proc.returncode
     print(f"Process exited with code: {exit_code}")
+
 
 @batch.command("run")
 @click.option("-m", "model", default=DEFAULT_MODEL)
@@ -101,17 +102,17 @@ def list_models(base_url:str, api_key:str):
 
 
 @api.command("gen")
-@click.argument("prompt")
+@click.argument("content")
 @click.option("-m", "--model", default=None)
 @click.option("-u", "--base-url", default=OPENAI_API_BASE)
 @click.option("-k", "--api-key", default=OPENAI_API_KEY)
-def completions_api(prompt:str, model:str | None, base_url:str, api_key:str):
-    """Runs the completions API endpoint on the given model & prompt
+def completions_api(content:str, model:str | None, base_url:str, api_key:str):
+    """Runs the completions API endpoint on the given model & content
 
     NOTE: Requires a running VLLM server
 
     Args:
-        prompt (str): Text input to send to the model
+        content (str): Text input to send to the model
         model (str): Which model to use, if not provided 1st from the server
         base_url (str): API base URL
         api_key (str): API key to authenticate with (if applicable)
@@ -126,7 +127,7 @@ def completions_api(prompt:str, model:str | None, base_url:str, api_key:str):
         model=model_id,
         messages=[
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt},
+            {"role": "user", "content": content},
         ],
     )
     print("Chat response:", chat_response.choices[0].message.content)
@@ -135,5 +136,5 @@ def completions_api(prompt:str, model:str | None, base_url:str, api_key:str):
 if __name__ == "__main__":
     cli.add_command(api)
     cli.add_command(batch)
-    cli.add_command(server)
+    cli.add_command(serve)
     cli()
