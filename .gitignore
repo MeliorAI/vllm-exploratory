@@ -166,3 +166,6 @@ llama/
 #files
 *.json
 *.env
+
+# ChromaDB persistence dir
+/data/chromadb
