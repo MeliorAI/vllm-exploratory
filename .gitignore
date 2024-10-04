@@ -169,3 +169,6 @@ llama/
 
 # ChromaDB persistence dir
 /data/chromadb
+
+# Document data
+/data/processed
