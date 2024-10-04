@@ -166,3 +166,5 @@ llama/
 #files
 *.json
 *.env
+
+llm/xplore/chroma_db/
