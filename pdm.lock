@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:65ece21528b3d4d6241f54a042b88cfc92716f65f116079659af199dca204a54"
+content_hash = "sha256:76f8b32e20efaf1a43f6fb5611eb29fefb39da8164be2c43319b71a872c5c12c"
 
 [[metadata.targets]]
 requires_python = "==3.10.*"
@@ -264,7 +264,7 @@ files = [
 
 [[package]]
 name = "datasets"
-version = "3.0.0"
+version = "2.21.0"
 requires_python = ">=3.8.0"
 summary = "HuggingFace community-driven open-source library of datasets"
 groups = ["default"]
@@ -273,7 +273,7 @@ dependencies = [
     "dill<0.3.9,>=0.3.0",
     "filelock",
     "fsspec[http]<=2024.6.1,>=2023.1.0",
-    "huggingface-hub>=0.22.0",
+    "huggingface-hub>=0.21.2",
     "multiprocess",
     "numpy>=1.17",
     "packaging",
@@ -285,8 +285,8 @@ dependencies = [
     "xxhash",
 ]
 files = [
-    {file = "datasets-3.0.0-py3-none-any.whl", hash = "sha256:c23fefb6c953dcb1cd5f6deb6c502729c733ef98791e0c3f2d80c7ca2d9a01dd"},
-    {file = "datasets-3.0.0.tar.gz", hash = "sha256:592317eb137f0fc5aac068ff283ba13c3c66d10c9c034d44bc8aa584126cf3e2"},
+    {file = "datasets-2.21.0-py3-none-any.whl", hash = "sha256:25e4e097110ce28824b746a107727ada94024cba11db8bc588d468414692b65a"},
+    {file = "datasets-2.21.0.tar.gz", hash = "sha256:998f85a8460f1bd982e5bd058f8a0808eef424249e3df1e8cdd594ccd0dc8ba2"},
 ]
 
 [[package]]

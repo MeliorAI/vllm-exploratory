@@ -11,6 +11,7 @@ dependencies = [
     "openai>=1.47.0",
     "huggingface-hub[cli]>=0.25.1",
     "boto3>=1.35.32",
+    "datasets==2.21.0",
 ]
 requires-python = "==3.10.*"
 readme = "README.md"
