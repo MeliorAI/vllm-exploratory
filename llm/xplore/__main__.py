@@ -1,5 +1,4 @@
 import click
-
 from openai import OpenAI
 
 from llm.xplore import DEFAULT_MODEL
@@ -36,8 +35,15 @@ def batch():
 @click.option("-l", "--max-model-len", default=300)
 @click.option("-c", "--cpu-offload-gb", default=10)
 @click.option("-e", "--enforce-eager", is_flag=True)
-def server_run(model:str, template:str, max_model_len: int, cpu_offload_gb:int, enforce_eager:bool):
+def server_run(
+    model: str,
+    template: str,
+    max_model_len: int,
+    cpu_offload_gb: int,
+    enforce_eager: bool,
+):
     import subprocess
+
     proc = subprocess.Popen(
         [
             "vllm",
@@ -50,7 +56,7 @@ def server_run(model:str, template:str, max_model_len: int, cpu_offload_gb:int, 
         ],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        stdin=subprocess.PIPE
+        stdin=subprocess.PIPE,
     )
     # Capture output in real-time
     for line in iter(proc.stdout.readline, b""):
@@ -67,7 +73,7 @@ def server_run(model:str, template:str, max_model_len: int, cpu_offload_gb:int, 
 @click.option("-m", "model", default=DEFAULT_MODEL)
 @click.option("-p", "--prompt", multiple=True)
 @click.option("-i", "--input-file")
-def batch_run(model:str, prompt: list[str] = [], input_file:str | None = None):
+def batch_run(model: str, prompt: list[str] = [], input_file: str | None = None):
     if prompt:
         print(f"Received {len(prompt)} prompts")
         inputs = list(prompt)
@@ -84,7 +90,7 @@ def batch_run(model:str, prompt: list[str] = [], input_file:str | None = None):
 @api.command("lsm")
 @click.option("-u", "--base-url", default=OPENAI_API_BASE)
 @click.option("-k", "--api-key", default=OPENAI_API_KEY)
-def list_models(base_url:str, api_key:str):
+def list_models(base_url: str, api_key: str):
     """List available models in the server
 
     NOTE: Requires a running VLLM server
@@ -106,7 +112,7 @@ def list_models(base_url:str, api_key:str):
 @click.option("-m", "--model", default=None)
 @click.option("-u", "--base-url", default=OPENAI_API_BASE)
 @click.option("-k", "--api-key", default=OPENAI_API_KEY)
-def completions_api(content:str, model:str | None, base_url:str, api_key:str):
+def completions_api(content: str, model: str | None, base_url: str, api_key: str):
     """Runs the completions API endpoint on the given model & content
 
     NOTE: Requires a running VLLM server

@@ -11,11 +11,88 @@ dependencies = [
     "openai>=1.47.0",
     "huggingface-hub[cli]>=0.25.1",
     "boto3>=1.35.32",
+    "bitsandbytes>=0.42.0",
+    "rich>=13.9.1",
+    "chromadb>=0.5.11",
+    "tqdm>=4.66.5",
+    "funcy>=2.0",
+    "sentence-transformers>=3.1.1",
 ]
 requires-python = "==3.10.*"
 readme = "README.md"
 license = {text = "MIT"}
 
 
+[project.optional-dependencies]
+notebook = [
+    "ipykernel>=6.29.5",
+    "ipython>=8.28.0",
+]
+
+langchain = [
+    "langchain>=0.3.1",
+    "langchain-community>=0.3.1",
+    "langchain-openai>=0.2.1",
+    "langchain-chroma>=0.1.4",
+]
+llamaindex = [
+    "llama-index>=0.11.15",
+    "llama-index-llms-openai-like>=0.2.0",
+    "llama-index-embeddings-huggingface>=0.3.1",
+    "llama-index-vector-stores-chroma>=0.2.0",
+]
+
+
 [tool.pdm]
 distribution = false
+
+[tool.pdm.dev-dependencies]
+checks = [
+    "ruff>=0.4.2",
+    "isort>=5.13.2",
+    "mypy>=1.10.0",
+    "deptry>=0.16.1",
+]
+tests = [
+    "pytest>=8.2.0",
+    "pytest-cov>=5.0.0",
+]
+
+[tool.pdm.scripts.tests]
+cmd = "pytest --cov -m 'not integration'"
+help = "Run unit tests and coverage."
+
+[tool.pdm.scripts.check-lint]
+shell = """
+    ruff format --check .
+    isort --check .
+    ruff check .
+"""
+help = "Run linting and formating checks."
+
+[tool.pdm.scripts.check-typing]
+cmd = "mypy --install-types --non-interactive"
+help = "Run static typing analysis."
+
+[tool.pdm.scripts.checks]
+composite = ["check-lint", "check-typing"]
+help = "Run all checks."
+
+[tool.pdm.scripts.ready]
+composite = ["reformat", "checks", "tests"]
+help = "Run all checks and tests."
+
+[tool.pdm.scripts.reformat]
+shell = """
+    isort .
+    ruff format .
+"""
+help = "Reformat the code using isort and ruff."
+
+[tool.pdm.scripts.reqs]
+cmd = "pdm export --prod --without-hashes"
+help = "Extract current development requirements. Save to a file with the `-o` option."
+
+[tool.pdm.scripts.version]
+cmd = 'echo "VERSION script not implemented yet!"'
+help = "Show the current version of the project."
