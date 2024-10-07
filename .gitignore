@@ -167,8 +167,10 @@ llama/
 *.json
 *.env
 
+
 # ChromaDB persistence dir
 /data/chromadb
+llm/xplore/chroma_db/
 
 # Document data
 /data/processed
